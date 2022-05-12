@@ -21,6 +21,22 @@
 		<repository>
 			<id>gitlab-maven</id>
 			<url>https://gitlab.com/api/v4/groups/16033742/-/packages/maven/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>sproutfx-maven</id>
+			<url>http://nexus.sproutfx.kr/repository/maven-public/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -59,12 +75,15 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
 		</dependency>
+
+		<!-- sproutfx dependencies -->
 		<!-- Logging -->
 		<dependency>
 			<groupId>kr.sproutfx.common</groupId>
 			<artifactId>sproutfx-common-logging-spring-boot-stater</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.3-SNAPSHOT</version>
 		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
