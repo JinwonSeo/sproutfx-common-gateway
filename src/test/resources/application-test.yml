@@ -1,0 +1,85 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  output:
+    ansi:
+      enabled: always
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: ${spring.application.name}
+    password: ${spring.application.name}
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      httpclient:
+        wiretap: true
+      httpserver:
+        wiretap: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        # sproutfx-oauth-authorization
+        - id: sproutfx-oauth-authorization
+          uri: lb://sproutfx-oauth-authorization
+          predicates:
+            - Path=/api/oauth/**
+        # sproutfx-oauth-backoffice
+        - id: sproutfx-oauth-backoffice
+          uri: lb://sproutfx-oauth-backoffice
+          predicates:
+            - Path=/api/oauth-backoffice/**
+
+eureka:
+  instance:
+    instance-id: ${random.uuid}
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 10
+  client:
+    healthcheck:
+      enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 10
+    disable-delta: false
+    service-url:
+      defaultZone: http://sproutfx-common-discovery:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+    refresh:
+      enabled: true
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: WARN
+    com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver: WARN
+    kr.sproutfx: INFO
+
+sproutfx:
+  logging:
+    identifier: ${spring.application.name}-${spring.profiles.active}
+    logstash:
+      appender-name: LOGSTASH
+      async-appender-name: ASYNC_LOGSTASH
+      host: 127.0.0.1
+      port: 5045
+      queue-size: 512
