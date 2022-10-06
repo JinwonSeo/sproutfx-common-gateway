@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: sproutfx-common-gateway
+  profiles:
+    active: test
+  cloud:
+    config:
+      enabled: false
